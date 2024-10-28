@@ -49,9 +49,9 @@ class TournamentTest(unittest.TestCase):
 
     def setUp(self):
         """создаются 3 объекта Runner"""
-        r1 = Runner("Усэйн", 10)
-        r2 = Runner("Андрей", 9)
-        r3 = Runner("Ник", 3)
+        self.r1 = Runner("Усэйн", 10)
+        self.r2 = Runner("Андрей", 9)
+        self.r3 = Runner("Ник", 3)
         print('setup')
 
     def tearDownClass(self):
@@ -62,9 +62,9 @@ class TournamentTest(unittest.TestCase):
     def start(self):
         return self.all_results
 
-    def test_race1(self, r1, r3):
+    def test_race1(self):
         self.setUp()
-        tourney = Tournament(90, r1, r3)
+        tourney = Tournament(90, self.r1, self.r3)
         self.all_results = tourney.start()
         print(self.all_results)
 
@@ -72,9 +72,9 @@ class TournamentTest(unittest.TestCase):
         print("Highest value of key in dict:", max_key, self.all_results[max_key])
         self.assertTrue(self.all_results[max_key], "Ник")
 
-    def test_race2(self, r2, r3):
+    def test_race2(self):
         self.setUp()
-        tourney = Tournament(90, r2, r3)
+        tourney = Tournament(90, self.r2, self.r3)
         self.all_results = tourney.start()
         print(self.all_results)
 
@@ -82,9 +82,9 @@ class TournamentTest(unittest.TestCase):
         print("Highest value of key in dict:", max_key, self.all_results[max_key])
         self.assertTrue(self.all_results[max_key], "Ник")
 
-    def test_race3(self, r1, r2, r3):
+    def test_race3(self):
         self.setUp()
-        tourney = Tournament(90, r1, r2, r3)
+        tourney = Tournament(90, self.r1, self.r2, self.r3)
         self.all_results = tourney.start()
         print(self.all_results)
 
