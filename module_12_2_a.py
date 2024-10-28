@@ -35,7 +35,7 @@ class Tournament:
             for participant in self.participants:
                 participant.run()
                 if participant.distance >= self.full_distance:
-                    finishers[place] = participant
+                    finishers[place] = participant.name
                     place += 1
                     self.participants.remove(participant)
 
@@ -52,7 +52,7 @@ class TournamentTest(unittest.TestCase):
         self.r1 = Runner("Усэйн", 10)
         self.r2 = Runner("Андрей", 9)
         self.r3 = Runner("Ник", 3)
-        print('setup')
+        #print('setup')
 
     def tearDownClass(self):
         """вывод результатов"""
