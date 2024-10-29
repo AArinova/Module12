@@ -32,51 +32,60 @@ class Tournament:
         finishers = {}
         place = 1
         while self.participants:
-            for participant in self.participants:
+            for participant in self.participants[:]:
                 participant.run()
                 if participant.distance >= self.full_distance:
-                    finishers[place] = participant
+                    finishers[place] = participant.name
                     place += 1
                     self.participants.remove(participant)
 
         return finishers
 
 class TournamentTest(unittest.TestCase):
-
+    @classmethod
     def setUpClass(self):
         """создаётся атрибут класса в котором хранятся результаты всех тестов."""
         self.all_results = dict()
 
     def setUp(self):
         """создаются 3 объекта Runner"""
-        r1 = Runner("Усэйн", 10)
-        r2 = Runner("Андрей", 9)
-        r3 = Runner("Ник", 3)
-        print('setup')
+        self.r1 = Runner("Усэйн", 10)
+        self.r2 = Runner("Андрей", 9)
+        self.r3 = Runner("Ник", 3)
 
-    def tearDownClass(self):
+    @classmethod
+    def tearDownClass(cls):
         """вывод результатов"""
-        for i_result in self.all_results:
+        for i_result in cls.all_results:
             print(i_result)
 
     def start(self):
         return self.all_results
 
-    def test_race(self, *args):
-        self.setUp()
-        tourney = Tournament(90, *args)
-        for runner in args:
-            self.all_results = tourney.start()
-            #self.all_results[runner.name] = tourney.full_distance / runner.speed
-            print(runner.name, self.all_results)
+    def test_race1(self):
+        tourney = Tournament(90, self.r1, self.r3)
+        self.all_results = tourney.start()
+        print(self.all_results)
+        max_key = max(self.all_results.keys())
+        print("Самым последним пришёл ", self.all_results[max_key])
+        self.assertTrue(self.all_results[max_key], "Ник")
 
-        max_key = max(self.all_results, key=self.all_results.get)
-        print("Highest value of key in dict:", max_key, self.all_results[max_key])
-        self.assertTrue(self.all_results[max_key], self.all_results[len(self.all_results)])
+    def test_race2(self):
+        tourney = Tournament(90, self.r2, self.r3)
+        self.all_results = tourney.start()
+        print(self.all_results)
+        max_key = max(self.all_results.keys())
+        print("Самым последним пришёл ", self.all_results[max_key])
 
+        self.assertTrue(self.all_results[max_key], "Ник")
+
+    def test_race3(self):
+        tourney = Tournament(90, self.r1, self.r2, self.r3)
+        self.all_results = tourney.start()
+        print(self.all_results)
+        max_key = max(self.all_results.keys())
+        print("Самым последним пришёл ", self.all_results[max_key])
+        self.assertTrue(self.all_results[max_key], "Ник")
 
 if __name__ == "__main__":
      unittest.main()
-#     {1: Усэйн, 2: Ник}
-#     {1: Андрей, 2: Ник}
-#     {1: Андрей, 2: Усэйн, 3: Ник}
